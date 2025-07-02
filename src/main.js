@@ -7,7 +7,7 @@ import { renderImages } from './js/render-functions.js';
 import { fetchImages } from './js/pixabay-api.js';
 
 
-const form = document.getElementById('form');
+const form = document.querySelector('.form');
 const loader = document.querySelector('.loader');
 
 
