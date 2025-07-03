@@ -16,20 +16,9 @@ let galleryImages = new SimpleLightbox('.gallery a', {
 });
 
 export const renderImages = data => {
-  gallery.innerHTML = '';
-  loader.style.display = 'none';
-
-  if (data.hits.length === 0) {
-    iziToast.error({
-      title: 'Error',
-      message:
-        'Sorry, there are no images matching your search query. Please try again!',
-      position: 'topRight',
-    });
-  } else {
-    const images = data.hits
-      .map(
-        hit => `<li class="gallery-item">
+  const images = data
+    .map(
+      hit => `<li class="gallery-item">
                 <a href="${hit.largeImageURL}">
                   <img src="${hit.webformatURL}" width='360' height='200' alt="${hit.tags}">
                 </a>
@@ -41,9 +30,18 @@ export const renderImages = data => {
                     <li><b>Downloads</b> ${hit.downloads}</li>
                 </ul>
             </li>`
-      )
-      .join('');
-    gallery.insertAdjacentHTML('beforeend', images);
-    galleryImages.refresh();
-  }
+    )
+    .join('');
+  gallery.insertAdjacentHTML('beforeend', images);
+  galleryImages.refresh();
+};
+
+export const showLoader = () => {
+  loader.style.display = 'block';
+};
+export const hideLoader = () => {
+  loader.style.display = 'none';
+};
+export const clearGallery = () => {
+  gallery.innerHTML = '';
 };
