@@ -8,7 +8,6 @@ import { fetchImages } from './js/pixabay-api.js';
 
 
 const form = document.querySelector('.form');
-const loader = document.querySelector('.loader');
 
 
 form.addEventListener('submit', e => {
@@ -28,29 +27,32 @@ form.addEventListener('submit', e => {
   };
   showLoader();
 
+  
   fetchImages(input)
-    .then(data => {
-      
-      if (data.hits.length === 0) {
+    .then(images => {
+      if (images.length === 0) {
         iziToast.warning({
-          title: 'No results',
-          message: 'No images found for your search query.',
+          title: 'Warning',
+          message:
+            'Sorry, there are no images matching your search query. Please try again!',
           position: 'topRight',
         });
         return;
       }
-      renderImages(data.hits);
+      renderImages(images);
     })
     .catch(error => {
       iziToast.error({
         title: 'Error',
-        message: 'There was an error fetching the images. Please try again later.',
+        message:
+          'An error occurred while fetching images. Please try again later.',
         position: 'topRight',
       });
       console.error('Error fetching images:', error);
-    }).finally(() => {
-      hideLoader();
     })
+    .finally(() => {
+      hideLoader();
+    });
   
   form.reset();
 });
